@@ -18,7 +18,7 @@ import java.util.Locale
 
 class FirebaseDBHelper {
 
-    private val database: FirebaseDatabase = FirebaseDatabase.getInstance("") /// TODO: Controlla url
+    private val database: FirebaseDatabase = FirebaseDatabase.getInstance("") /// TODO: set firebase realtime database url here
     private val uid get() = FirebaseAuth.getInstance().currentUser?.uid ?: ""
     private val wordsRef get() = database.getReference("users/$uid/my_words")
     private val scoreRef get() = database.getReference("users/$uid/memogame_score")

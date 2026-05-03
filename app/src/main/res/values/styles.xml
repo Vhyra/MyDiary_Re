@@ -1,0 +1,61 @@
+<resources>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:colorBackground">#0A0E14</item> <!-- Sfondo nero bluastro, tipico dei display militari -->
+        <item name="android:textColor">#00FFBC</item> <!-- Verde acqua fosforescente, comune nei display della serie -->
+        <item name="android:buttonStyle">@style/GundamCommandButton</item>
+        <item name="editTextStyle">@style/GundamDataField</item>
+        <item name="android:searchViewStyle">@style/GundamSearchView</item>
+        <item name="android:textViewStyle">@style/GundamTextView</item>
+        <item name="android:fontFamily">monospace</item> <!-- Font monospazio per un aspetto più tecnico -->
+        <item name="android:statusBarColor">#070B10</item> <!-- Barra di stato scura -->
+        <item name="android:navigationBarColor">#070B10</item> <!-- Barra di navigazione scura -->
+    </style>
+
+    <!-- Bottone in stile pannello di comando Gundam -->
+    <style name="GundamCommandButton" parent="Widget.AppCompat.Button">
+        <item name="android:background">@drawable/command_button</item> <!-- Bottone con bordo e angoli netti -->
+        <item name="android:textColor">#00FFBC</item> <!-- Testo verde acqua fosforescente -->
+        <item name="android:padding">12dp</item>
+        <item name="android:textAllCaps">true</item> <!-- Maiuscolo per un aspetto più militare/tecnico -->
+        <item name="android:fontFamily">monospace</item> <!-- Font monospazio per aspetto computerizzato -->
+        <item name="android:letterSpacing">0.1</item> <!-- Maggiore spaziatura per leggibilità su sfondo scuro -->
+    </style>
+
+    <!-- EditText con aspetto di terminale di input dati -->
+    <style name="GundamDataField" parent="Widget.AppCompat.EditText">
+        <item name="android:background">@drawable/data_field</item>
+        <item name="android:textColor">#00FFBC</item> <!-- Testo verde acqua fosforescente -->
+        <item name="android:textColorHint">#00FFBB</item> <!-- Verde chiaro per gli hint -->
+        <item name="android:padding">12dp</item>
+        <item name="android:fontFamily">monospace</item>
+        <item name="android:textCursorDrawable">@drawable/g_cursor
+        </item> <!-- Cursore personalizzato -->
+    </style>
+
+    <style name="GundamTextView" parent="Widget.AppCompat.TextView">
+        <item name="android:background">@drawable/text_view_field</item>
+        <item name="android:textColor">#00FFBC</item> <!-- Testo verde acqua fosforescente -->
+        <item name="android:padding">12dp</item>
+        <item name="android:fontFamily">monospace</item>
+    </style>
+
+    <!-- Stile supplementare per titoli e intestazioni -->
+    <style name="GundamHeader" parent="TextAppearance.AppCompat.Large">
+        <item name="android:textColor">#FF5252</item> <!-- Rosso per avvisi e intestazioni -->
+        <item name="android:fontFamily">monospace</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">0.15</item>
+    </style>
+
+
+    <style name="GundamSearchView" parent="Widget.AppCompat.SearchView">
+        <item name="android:background">@drawable/searchview_background</item>
+        <item name="android:editTextColor">#00FFBC</item>
+        <item name="android:textColorHint">#00796B</item>
+        <item name="android:iconifiedByDefault">false</item>
+        <item name="android:textCursorDrawable">@drawable/g_cursor</item>
+    </style>
+
+
+</resources>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#142430" /> <!-- Sfondo blu più chiaro per maggiore visibilità -->
+    <stroke android:width="2dp" android:color="#00FFBC" /> <!-- Bordo verde fosforescente più evidente -->
+    <item android:name="android:textColor">#00FFBC</item> <!-- Testo verde acqua fosforescente -->
+    <item android:name="android:textColorHint">#00FFBB</item> <!-- Verde chiaro per gli hint -->
+    <corners android:radius="1dp" /> <!-- Angoli minimamente arrotondati per aspetto tecnico -->
+    <padding android:left="10dp" android:top="10dp" android:right="10dp" android:bottom="10dp" />
+</shape>

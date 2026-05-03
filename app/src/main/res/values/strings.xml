@@ -1,0 +1,51 @@
+<resources>
+    <string name="app_name">My Diary</string>
+    <string name="home">Home</string>
+    <string name="diary">Diary</string>
+    <string name="statistics">Statistics</string>
+    <string name="program">Program</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="add_page">Add Page</string>
+    <string name="Save_new_day">Save day</string>
+    <string name="dictionary">Dictionary</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="new_word">Add word</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="empty_field">Cannot be empty</string>
+    <string name="saved">Saved</string>
+    <string name="error">Error</string>
+    <string name="insert_date">Insert date</string>
+    <string name="write_about_your_day">Write about your day</string>
+    <string name="edit">Edit</string>
+    <string name="save">Save</string>
+    <string name="del">Del</string>
+    <string name="search">Search...</string>
+    <string name="not_found">Element not found</string>
+    <string name="n_words">Words\' counter</string>
+    <string name="n_days">Number of pages</string>
+    <string name="word_translation">Word translation</string>
+    <string name="notes">Notes</string>
+    <string name="Add_fast_word">W+</string>
+    <string name="memory_game">Memory Game</string>
+    <string name="guess">Guess</string>
+    <string name="check">Check</string>
+    <string name="skip">Skip</string>
+    <string name="correct">Correct!</string>
+    <string name="retry">Tray again!</string>
+    <string name="duplicated">Word already in dictionary</string>
+    <string name="dateError">Wrong date format: dd/mm/yyyy</string>
+    <string name="type_in_the_search_bar">Type in the search bar</string>
+    <string name="search_a_word">Search a word</string>
+    <string name="saveInProgress">Saving...</string>
+    <string name="actualScore">Actual Score</string>
+    <string name="missed">Missed</string>
+    <string name="guessed">Correct</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="wrong">Wrong</string>
+    <string name="right">Right</string>
+    <string name="warning">Are you sure?</string>
+    <string name="edited">Edited</string>
+    <string name="confirm">Confirm</string>
+    <string name="revertAction">Revert</string>
+    <!-- TODO: Remove or change this placeholder text -->
+</resources>

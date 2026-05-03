@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">My Diary</string>
+    <string name="home">Home</string>
+    <string name="diary">Diario</string>
+    <string name="statistics">Statistiche</string>
+    <string name="program">Promemoria</string>
+    <string name="add_page">Aggiungi</string>
+    <string name="Save_new_day">Salva giornata</string>
+    <string name="dictionary">Dizionario</string>
+    <string name="new_word">Nuovo termine</string>
+    <string name="empty_field">Non Possono essere vuoti</string>
+    <string name="saved">Salvato</string>
+    <string name="error">Errore</string>
+    <string name="insert_date">Data</string>
+    <string name="write_about_your_day">Racconta la tua giornata</string>
+    <string name="edit">Edit</string>
+    <string name="save">Salva</string>
+    <string name="del">Del</string>
+    <string name="search">Cerca...</string>
+    <string name="not_found">Nessun elemento corrisponde</string>
+    <string name="n_words">Numero parole nel dizionario</string>
+    <string name="n_days">Numero di pagine annotate</string>
+    <string name="word_translation">Word translation</string>
+    <string name="notes">Notes</string>
+    <string name="Add_fast_word">W+</string>
+    <string name="memory_game">Memory Game</string>
+    <string name="guess">Guess</string>
+    <string name="check">Check</string>
+    <string name="skip">Skip</string>
+    <string name="correct">Corretto!</string>
+    <string name="retry">Riprova!</string>
+    <string name="duplicated">Parola già nel dizionario</string>
+    <string name="dateError">Formato data errato: dd/mm/yyyy</string>
+    <string name="type_in_the_search_bar">Cerca nella search bar</string>
+    <string name="search_a_word">Cerca una parola</string>
+    <string name="saveInProgress">Salvataggio...</string>
+    <string name="actualScore">Punteggio</string>
+    <string name="missed">Sbagliate</string>
+    <string name="guessed">Corrette</string>
+    <string name="wrong">Sbagliata</string>
+    <string name="right">Corretta</string>
+    <string name="warning">Sei sicuro di voler continuare con questa azione?</string>
+    <string name="edited">Modificato</string>
+    <string name="confirm">Conferma</string>
+    <string name="revertAction">Annulla</string>
+</resources>

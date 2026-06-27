@@ -10,4 +10,5 @@ class DataViewModel: ViewModel() {
     var gameStats = MutableLiveData<MutableList<Triple<String, Pair<String, String>, String>>>(mutableListOf())
     var selected = MutableLiveData<MutableList<Int>>(mutableListOf())
     var setList = MutableLiveData<MutableList<String>>(mutableListOf())
+    var grammarList = MutableLiveData<MutableList<Triple<String, String, String>>>(mutableListOf())
 }

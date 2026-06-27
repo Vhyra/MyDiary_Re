@@ -2,8 +2,8 @@ package com.example.mydiary.pages
 
 import android.content.pm.ActivityInfo
 import android.os.Bundle
-import android.os.LocaleList
 import android.text.method.ScrollingMovementMethod
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,12 +13,15 @@ import android.widget.SearchView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.example.mydiary.MainActivity
 import com.example.mydiary.R
 import com.example.mydiary.data.DataViewModel
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Locale
+import kotlin.contracts.contract
 
 class NewDayPage : BaseFrag() {
     private var dateText = ""
@@ -40,10 +43,9 @@ class NewDayPage : BaseFrag() {
         val date: EditText = rootView.findViewById(R.id.editTextDate)
         val text: EditText = rootView.findViewById(R.id.editTextTextMultiLine)
 
-        text.imeHintLocales = LocaleList(Locale.KOREAN)
-
         val dictionaryContainer = rootView.findViewById<View>(R.id.landscapeFragmentDicView)
         if (dictionaryContainer != null) {
+            // Se questo container è presente, siamo in modalità landscape
             if (childFragmentManager.findFragmentById(R.id.landscapeFragmentDicView) == null) {
                 childFragmentManager.beginTransaction()
                     .replace(R.id.landscapeFragmentDicView, Dictionary())

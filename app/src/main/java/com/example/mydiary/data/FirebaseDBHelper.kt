@@ -2,11 +2,9 @@ package com.example.mydiary.data
 
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ServerValue
 import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.async
@@ -18,11 +16,12 @@ import java.util.Locale
 
 class FirebaseDBHelper {
 
-    private val database: FirebaseDatabase = FirebaseDatabase.getInstance("") /// TODO: set firebase realtime database url here
+    private val database: FirebaseDatabase = FirebaseDatabase.getInstance("") /// TODO: Controlla url
     private val uid get() = FirebaseAuth.getInstance().currentUser?.uid ?: ""
     private val wordsRef get() = database.getReference("users/$uid/my_words")
     private val scoreRef get() = database.getReference("users/$uid/memogame_score")
     private val diaryRef get() = database.getReference("users/$uid/my_diary")
+    private val ruleRef get() = database.getReference("users/$uid/my_rules")
     private val setRef get() = database.getReference("users/$uid/max_set")
 
     private fun uid(): String = FirebaseAuth.getInstance().currentUser?.uid
@@ -32,6 +31,18 @@ class FirebaseDBHelper {
         val key = diaryRef.push().key ?: return onComplete(false)
         val data = mapOf("date" to isoDate, "day_data" to dayData)
         diaryRef.child(key).setValue(data) { error, _ ->
+            onComplete(error == null)
+        }
+    }
+
+    fun addRuleRecord(rule: String, descr: String, chapter: String, onComplete: (Boolean) -> Unit) {
+        val key = ruleRef.push().key ?: return onComplete(false)
+        val data = mapOf(
+            "rule" to rule,
+            "descr" to descr,
+            "chapter" to chapter
+        )
+        ruleRef.child(key).setValue(data) { error, _ ->
             onComplete(error == null)
         }
     }
@@ -166,6 +177,29 @@ class FirebaseDBHelper {
         return deferred.await()
     }
 
+    suspend fun getRules(): List<Triple<String, String, String>> {
+        val deferred = CompletableDeferred<List<Triple<String, String, String>>>()
+
+        ruleRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val records = mutableListOf<Triple<String, String, String>>()
+                for (entry in snapshot.children) {
+                    val rule = entry.child("rule").getValue(String::class.java) ?: ""
+                    val descr = entry.child("descr").getValue(String::class.java) ?: ""
+                    val chapter = entry.child("chapter").getValue(String::class.java) ?: ""
+                    records.add(Triple(rule, descr, chapter))
+                }
+                deferred.complete(records)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                deferred.completeExceptionally(error.toException())
+            }
+        })
+
+        return deferred.await()
+    }
+
     fun removeWord(word: String, translation: String, notes: String) {
         wordsRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -202,6 +236,37 @@ class FirebaseDBHelper {
 
                 if (editOrNot && newDate != null && newData != null) {
                     addRecord(newDate, newData) { success ->
+                        if (success) {
+                            Log.d("Firebase", "Record aggiunto correttamente")
+                        } else {
+                            Log.e("Firebase", "Errore nell'aggiunta del record")
+                        }
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("FirebaseDBHelper", "Failed to delete day entry", error.toException())
+            }
+        })
+    }
+
+    fun removeRule(oldRule: String, oldDescription: String, oldChapter: String?, newRule: String?, newDesc: String?, newChapt: String?, editOrNot: Boolean) {
+        ruleRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (entry in snapshot.children) {
+                    val rule = entry.child("rule").getValue(String::class.java)
+                    val descr = entry.child("descr").getValue(String::class.java)
+                    val chaptr = entry.child("chapter").getValue(String::class.java)
+
+                    if (rule == oldRule && descr == oldDescription && chaptr == oldChapter) {
+                        entry.ref.removeValue()
+                        break
+                    }
+                }
+
+                if (editOrNot && newRule != null && newDesc != null && newChapt != null) {
+                    addRuleRecord(newRule, newDesc, newChapt) { success ->
                         if (success) {
                             Log.d("Firebase", "Record aggiunto correttamente")
                         } else {

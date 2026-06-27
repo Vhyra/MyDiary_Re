@@ -18,9 +18,11 @@ import com.example.mydiary.data.FirebaseDBHelper
 import com.example.mydiary.interfaces.MainActInterface
 import com.example.mydiary.pages.DiaryPage
 import com.example.mydiary.pages.Dictionary
+import com.example.mydiary.pages.GrammarList
 import com.example.mydiary.pages.Homepage
 import com.example.mydiary.pages.MemoGameFrag
 import com.example.mydiary.pages.NewDayPage
+import com.example.mydiary.pages.NewGrammar
 import com.example.mydiary.pages.NewWord
 import com.example.mydiary.pages.StatsFrag
 import com.example.mydiary.services.AudioService
@@ -119,6 +121,8 @@ class MainActivity : AppCompatActivity(), MainActInterface {
                 "diary" -> newFragment = DiaryPage()
                 "memoryGame" -> newFragment = MemoGameFrag()
                 "statsFrag" -> newFragment = StatsFrag()
+                "grammar_page" -> newFragment = GrammarList()
+                "new_grammar" -> newFragment = NewGrammar()
                 "login_frag" -> newFragment = LoginFragment()
             }
             if (newFragment != null) {
@@ -154,46 +158,44 @@ class MainActivity : AppCompatActivity(), MainActInterface {
 
     }
 
-
-    override fun removeDay(
-        oldDate: String,
-        oldData: String,
-        newDate: String?,
-        newData: String?,
+    override fun removeRule(
+        rule: String,
+        description: String,
+        chapter: String,
+        newRule: String?,
+        newDesc: String?,
+        newChapt: String?,
         editOrNot: Boolean
     ) {
-        dbHelper.removeDay(oldDate, oldData, newDate, newData, editOrNot)
-        updateStats()
+        dbHelper.removeRule(
+            rule,
+            description,
+            chapter,
+            newRule,
+            newDesc,
+            newChapt,
+            editOrNot
+        )
     }
-/*
-    fun updateData(data: String){
-        CoroutineScope(Dispatchers.Main).launch {
-            try {
-                when (data) {
-                    "words" -> {
-                        viewModel.records = dbHelper.getAllWordRecords().toMutableList()
-                        viewModel.records.sortBy { it.second.lowercase(Locale.ROOT) }
-                    }
 
-                    "days" -> {
-                        viewModel.dayRecords = dbHelper.getAllRecords().toMutableList()
-                        viewModel.dayRecords.sortByDescending { it.first }
-                    }
-
-                    "scores" -> {
-                        viewModel.gameStats = dbHelper.getScore().toMutableList()
-                        viewModel.gameStats.sortByDescending { it.first }
-                    }
-                }
-            } catch (e: Exception){
-            println(e)
+    override suspend fun addRuleRecord(
+        nRule: String,
+        nDescription: String,
+        nChapter: String
+    ) : Boolean = suspendCoroutine { continuation ->
+        dbHelper.addRuleRecord(
+            nRule,
+            nDescription,
+            nChapter
+        ) { success ->
+            if(success){
+                val updated = viewModel.grammarList.value ?: mutableListOf()
+                updated.add(Triple(nRule, nDescription, nChapter))
+                updated.sortByDescending { it.first }
+                viewModel.grammarList.postValue(updated)
             }
+            continuation.resume(success)
         }
-    }
-*/
-    override fun removeWord(word: String, tranlsation: String, notes: String) {
-        dbHelper.removeWord(word, tranlsation, notes)
-        updateStats()
     }
 
     override suspend fun addWordRecord(
@@ -218,6 +220,30 @@ class MainActivity : AppCompatActivity(), MainActInterface {
         updateStats()
 
     }
+
+
+    override fun removeDay(
+        oldDate: String,
+        oldData: String,
+        newDate: String?,
+        newData: String?,
+        editOrNot: Boolean
+    ) {
+        dbHelper.removeDay(oldDate, oldData, newDate, newData, editOrNot)
+        updateStats()
+    }
+
+    override fun removeWord(word: String, tranlsation: String, notes: String) {
+        dbHelper.removeWord(word, tranlsation, notes)
+
+        val updated = viewModel.records.value ?: mutableListOf()
+        updated.removeIf { it.first == word && it.second == tranlsation && it.third.first == notes }
+        viewModel.records.postValue(updated)
+
+        updateStats()
+    }
+
+
 
     override fun manage_audio(){
         if(AudioService.isRunning){
@@ -284,6 +310,14 @@ class MainActivity : AppCompatActivity(), MainActInterface {
                     dbHelper.getSets().sortedBy { it.lowercase(Locale.getDefault()) }.toMutableList()
                 )
             }
+
+            if(viewModel.grammarList.value.isNullOrEmpty()){
+                viewModel.grammarList.postValue(
+                    dbHelper.getRules().sortedBy { it.second.lowercase() }.toMutableList()
+                )
+            }
+
+
 
         } catch (e: Exception) {
             println(e)

@@ -21,4 +21,15 @@ interface MainActInterface {
 
     fun setCurrentFragment(frag: String)
     suspend fun addRecord(date: String, text: String): Boolean
+    fun removeRule(
+        rule: String,
+        description: String,
+        chapter: String,
+        newRule: String?,
+        newDesc: String?,
+        newChapt: String?,
+        bool: Boolean
+    )
+
+    suspend fun addRuleRecord(nRule: String, nDescription: String, nChapter: String): Boolean
 }

@@ -79,7 +79,6 @@ class CustomDictionaryAdapter(
             val dialogView = LayoutInflater.from(context)
                 .inflate(R.layout.popup_edit_word, null)
 
-            // Prendi i campi
             val editWord = dialogView.findViewById<EditText>(R.id.edit_word)
             val editTranslation = dialogView.findViewById<EditText>(R.id.edit_translation)
             val editNotes = dialogView.findViewById<EditText>(R.id.edit_notes)
@@ -103,15 +102,17 @@ class CustomDictionaryAdapter(
 
                     Toast.makeText(context, context.getString(R.string.edited), Toast.LENGTH_SHORT).show()
 
+                    """
                     dataSet[position] = Triple(
                         newWord,
                         newTranslation,
                         Pair(newNotes, newSet)
                     )
+                    """
 
                     scope.launch { contract.addWordRecord(newWord, newTranslation, newNotes, newSet) }
 
-                    notifyItemChanged(position)
+                    //notifyItemChanged(position)
 
                 }
                 .setNegativeButton(context.getString(R.string.revertAction), null)

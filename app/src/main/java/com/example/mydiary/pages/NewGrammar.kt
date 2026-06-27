@@ -1,7 +1,6 @@
 package com.example.mydiary.pages
 
 import android.os.Bundle
-import android.text.method.ScrollingMovementMethod
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,18 +10,16 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.example.mydiary.MainActivity
 import com.example.mydiary.R
 import com.example.mydiary.data.DataViewModel
 import kotlinx.coroutines.launch
 
-
-class NewWord: BaseFrag() {
+class NewGrammar : BaseFrag() {
     private lateinit var viewModel: DataViewModel
 
-    private lateinit var word: TextView
-    private lateinit var text: TextView
-    private lateinit var notes: TextView
+    private lateinit var rule: TextView
+    private lateinit var descr: TextView
+    private lateinit var chapter: TextView
     private lateinit var setText: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,14 +31,13 @@ class NewWord: BaseFrag() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val rootView = inflater.inflate(R.layout.fragment_new_word, container, false)
+        val rootView = inflater.inflate(R.layout.fragment_new_grammar, container, false)
 
         val home_button: Button = rootView.findViewById(R.id.home_btn)
-        val save_word: Button = rootView.findViewById(R.id.add_word)
-        word = rootView.findViewById(R.id.word)
-        text = rootView.findViewById(R.id.translation)
-        notes = rootView.findViewById(R.id.notes)
-        setText = rootView.findViewById(R.id.editTextNumber)
+        val save_rule: Button = rootView.findViewById(R.id.add_rule)
+        rule = rootView.findViewById(R.id.rule)
+        descr = rootView.findViewById(R.id.desc)
+        chapter = rootView.findViewById(R.id.editChapter)
 
         viewModel = ViewModelProvider(requireActivity())[DataViewModel::class.java]
 
@@ -49,45 +45,34 @@ class NewWord: BaseFrag() {
             contract.changeFrag("homepage")
         }
 
-        notes.movementMethod = ScrollingMovementMethod()
-
-        save_word.setOnClickListener {
-            save_word.isClickable = false
-            val nWord = word.text.toString().trim() // Rimuove gli spazi
-            val translation = text.text.toString().trim()
-            var notesText = notes.text.toString().trim()
-            var set = setText.text.toString().trim()
+        save_rule.setOnClickListener {
+            save_rule.isClickable = false
+            val nRule = rule.text.toString().trim() // Rimuove gli spazi
+            val nDescription = descr.text.toString().trim()
+            var nChapter = chapter.text.toString().trim()
 
             // Verifica che i campi word e translation non siano vuoti o solo spazi
-            if (nWord.isEmpty() || translation.isEmpty()) {
+            if (nRule.isEmpty() || nDescription.isEmpty() || nChapter.isEmpty()) {
                 // Mostra il Toast se uno dei campi è vuoto o contiene solo spazi
                 Toast.makeText(context, getString(R.string.empty_field), Toast.LENGTH_SHORT).show()
             } else {
-                // Se il campo notes è vuoto, assegnagli un trattino "-"
-                if (notesText.isEmpty()) {
-                    notesText = "-"
-                }
-
-                if (set.isEmpty()){
-                    set = "0"
-                }
-
                 // Salva il record nel database
-                if(!duplicated(nWord)) {
+                if (!duplicated(nRule)) {
                     lifecycleScope.launch {
-                        val success = contract.addWordRecord(nWord, translation, notesText, set)
+                        val success = contract.addRuleRecord(nRule, nDescription, nChapter)
                         if (success) {
-                            word.text = ""
-                            text.text = ""
-                            notes.text = ""
-                            Toast.makeText(context, getString(R.string.saved), Toast.LENGTH_SHORT).show()
+                            rule.text = ""
+                            descr.text = ""
+                            Toast.makeText(context, getString(R.string.saved), Toast.LENGTH_SHORT)
+                                .show()
                         } else {
-                            Toast.makeText(context, getString(R.string.error), Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, getString(R.string.error), Toast.LENGTH_SHORT)
+                                .show()
                         }
                     }
                 }
             }
-            save_word.isClickable = true
+            save_rule.isClickable = true
 
         }
 
@@ -97,14 +82,14 @@ class NewWord: BaseFrag() {
     }
 
     private fun duplicated(query: String): Boolean {
-        val index = viewModel.records.value?.indexOfFirst {
+        val index = viewModel.grammarList.value?.indexOfFirst {
             it.first.equals(query, ignoreCase = true)
         }
 
         if (index != -1) {
-            Toast.makeText(context, getString(R.string.duplicated), Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, getString(R.string.duplic), Toast.LENGTH_SHORT).show()
             return true
-        }else{
+        } else {
             return false
         }
     }
@@ -114,5 +99,4 @@ class NewWord: BaseFrag() {
             return NewWord()
         }
     }
-
 }

@@ -29,6 +29,7 @@ class Homepage: BaseFrag() {
         val stats_button: Button = rootView.findViewById(R.id.stats_button)
         val memoryGameBtn: Button = rootView.findViewById(R.id.memoryGame_button)
         val diary_button: Button = rootView.findViewById(R.id.diary_button)
+        val grammar_btn: Button = rootView.findViewById(R.id.grammarPageBtn)
 
         stats_view = rootView.findViewById(R.id.stats_view)
 
@@ -54,6 +55,9 @@ class Homepage: BaseFrag() {
         }
         diary_button.setOnClickListener {
             contract.changeFrag("diary")
+        }
+        grammar_btn.setOnClickListener {
+            contract.changeFrag("grammar_page")
         }
 
         return rootView

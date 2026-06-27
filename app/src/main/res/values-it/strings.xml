@@ -44,4 +44,12 @@
     <string name="edited">Modificato</string>
     <string name="confirm">Conferma</string>
     <string name="revertAction">Annulla</string>
+    <string name="new_data">Aggiungi</string>
+    <string name="grammar_rule">Regola</string>
+    <string name="grammar_chapter">Capitolo</string>
+    <string name="grammar_descr">Descrizione</string>
+    <string name="grammar_page">Grammatica</string>
+    <string name="new_gramm">AGGIUNGI</string>
+    <string name="chapter">Capitolo</string>
+    <string name="duplic">Valore già presente</string>
 </resources>
